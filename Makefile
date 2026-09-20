@@ -14,18 +14,16 @@ libboundscheck/src/securecutil.o libboundscheck/src/secureprintoutput_a.o libbou
 # endif
 vtzdriver-objs += tlogger.o serialport.o tee_info.o reserved_shm.o process_data.o block_pages.o reg_mem_ht.o
 
-KERN_VER = $(shell uname -r)
-KERN_DIR = /lib/modules/$(KERN_VER)/build
+KPATH := /usr/src/kernels
+KDIR  := $(KPATH)/$(shell ls $(KPATH))
 
 EXTRA_CFLAGS += -fstack-protector-strong -DCONFIG_AUTH_ENHANCE
-EXTRA_CFLAGS += -I$(PWD)/libboundscheck/include/
+EXTRA_CFLAGS += -I$(PWD)/libboundscheck/include/  -I$(PWD)
 EXTRA_CFLAGS += -I$(PWD)/inc/
 
 all:
-	@sudo mkdir -p /var/log/tee
-	make -C $(KERN_DIR) M=`pwd` modules
+	make -C $(KDIR) M=$(PWD) modules
 
 clean:
-	# make -C $(KERN_DIR) M=`pwd` modules clean
 	-rm -vrf *.o *.ko
 	-rm -vrf *.order *.symvers *.mod.c *.mod.o .tmp_versions .*o.cmd .*.o.d *.mod .*.cmd
