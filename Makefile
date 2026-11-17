@@ -18,6 +18,7 @@ KPATH := /usr/src/kernels
 KDIR  := $(KPATH)/$(shell ls $(KPATH))
 
 EXTRA_CFLAGS += -fstack-protector-strong -DCONFIG_AUTH_ENHANCE
+EXTRA_CFLAGS += -DSECUREC_EXPORT_KERNEL_SYMBOL=0
 EXTRA_CFLAGS += -I$(PWD)/libboundscheck/include/  -I$(PWD)
 EXTRA_CFLAGS += -I$(PWD)/inc/
 
